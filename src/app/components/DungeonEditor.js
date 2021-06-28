@@ -3,6 +3,7 @@ import React from 'react';
 import { render as renderDungeon } from '../rendering/DungeonRenderer';
 import { GridRenderer } from '../rendering/GridRenderer';
 import store from '../store.js';
+import ToolManager from '../tools/ToolManager';
 import { handleKeyPressed, handleKeyReleased } from '../utils/keyboardEventHandlers.js';
 import * as MouseEventHandler from '../utils/mouseEventHandlers.js';
 
@@ -36,17 +37,19 @@ export default class DungeonEditor extends React.Component {
         app.stage.sortableChildren = true;
         app.stage.addChild(graphics);
 
-        this.setupInteractions(app)
 
         let gridRenderer = new GridRenderer();
         app.stage.addChild(gridRenderer.createRenderObject());
 
+        let toolManager = new ToolManager();
+        this.setupInteractions(app, toolManager)
+
         app.ticker.add(() => {
-            renderDungeon(app, graphics, gridRenderer);
+            renderDungeon(app, graphics, gridRenderer, toolManager);
         });
     }
 
-    setupInteractions(app) {
+    setupInteractions(app, toolManager) {
         this.canvasDiv.addEventListener("wheel", (wheelEvent) => {
             MouseEventHandler.handleWheelEvent(wheelEvent, store);
             wheelEvent.preventDefault();
@@ -55,10 +58,10 @@ export default class DungeonEditor extends React.Component {
             event.preventDefault();
         });
         this.canvasDiv.addEventListener('pointerdown', (event) => {
-            MouseEventHandler.handleMouseDown(event, store, app);
+            MouseEventHandler.handleMouseDown(event, store, app, toolManager);
         });
         this.canvasDiv.addEventListener('pointerup', (event) => {
-            MouseEventHandler.handleMouseUp(event, store, app);
+            MouseEventHandler.handleMouseUp(event, store, app, toolManager);
         });
         this.canvasDiv.addEventListener('pointermove', (pointerEvent) => {
             MouseEventHandler.handleMouseMove(pointerEvent, store);

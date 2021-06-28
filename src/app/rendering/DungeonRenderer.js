@@ -2,7 +2,6 @@ import * as PIXI from 'pixi.js';
 import * as DungeonObjectOperations from '../dungeonObjects/DungeonObjectOperations';
 import { pngExported, setCurrentMousePosition } from "../reducers/editorActions";
 import store from '../store.js';
-import * as ToolRouter from '../tools/ToolRouter';
 import TOOL_TYPE from '../tools/toolType';
 import download from "../utils/download";
 
@@ -10,8 +9,9 @@ import download from "../utils/download";
  * @param {PIXI.Application} app
  * @param {PIXI.Graphics} graphics
  * @param {GridRenderer} gridRenderer
+ * @param {ToolManager} toolManager
  */
-export const render = (app, graphics, gridRenderer) => {
+export const render = (app, graphics, gridRenderer, toolManager) => {
     /**
      * @type {import("../reducers").State}
      */
@@ -27,7 +27,7 @@ export const render = (app, graphics, gridRenderer) => {
 
     if (app.renderer.plugins.interaction.mouseOverRenderer) {
         graphics.clear();
-        ToolRouter.renderTool(state, graphics);
+        toolManager.renderTool(state, graphics);
 
         let mousePosition = app.renderer.plugins.interaction.mouse.getLocalPosition(app.stage);
         store.dispatch(setCurrentMousePosition(mousePosition.x, mousePosition.y));

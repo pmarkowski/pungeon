@@ -17,17 +17,19 @@ const toolMap = {
     [TOOL_TYPE.NEW_TOKEN]: new AddTokenTool()
 }
 
-export const onMouseDown = (store, app) => {
-    let state = store.getState();
-    toolMap[state.editor.selectedTool].onMouseDown?.(store, app);
-}
+export default class ToolManager {
+    onMouseDown = (store, app) => {
+        let state = store.getState();
+        toolMap[state.editor.selectedTool].onMouseDown?.(store, app);
+    }
 
-export const onMouseUp = (store, app) => {
-    /** @type {import("../reducers").State} */
-    let state = store.getState();
-    toolMap[state.editor.selectedTool].onMouseUp(store, app);
-}
+    onMouseUp = (store, app) => {
+        /** @type {import("../reducers").State} */
+        let state = store.getState();
+        toolMap[state.editor.selectedTool].onMouseUp(store, app);
+    }
 
-export const renderTool = (state, graphics) => {
-    toolMap[state.editor.selectedTool].renderTool(state, graphics);
+    renderTool = (state, graphics) => {
+        toolMap[state.editor.selectedTool].renderTool(state, graphics);
+    }
 }
