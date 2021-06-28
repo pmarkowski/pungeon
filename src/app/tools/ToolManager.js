@@ -30,6 +30,11 @@ export default class ToolManager {
     }
 
     renderTool = (state, graphics) => {
+        if (this.selectedTool !== state.editor.selectedTool) {
+            toolMap[this.selectedTool].toolDeselected?.();
+            this.selectedTool = state.editor.selectedTool;
+            toolMap[this.selectedTool].toolSelected?.();
+        }
         toolMap[state.editor.selectedTool].renderTool(state, graphics);
     }
 }
