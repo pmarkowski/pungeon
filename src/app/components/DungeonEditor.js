@@ -37,11 +37,10 @@ export default class DungeonEditor extends React.Component {
         app.stage.sortableChildren = true;
         app.stage.addChild(graphics);
 
-
         let gridRenderer = new GridRenderer();
         app.stage.addChild(gridRenderer.createRenderObject());
 
-        let toolManager = new ToolManager();
+        let toolManager = new ToolManager(store.getState().editor.selectedTool);
         this.setupInteractions(app, toolManager)
 
         app.ticker.add(() => {

@@ -18,23 +18,51 @@ const toolMap = {
 }
 
 export default class ToolManager {
+    constructor(initialSelectedTool) {
+        this.selectTool(initialSelectedTool);
+    }
+
     onMouseDown = (store, app) => {
-        let state = store.getState();
-        toolMap[state.editor.selectedTool].onMouseDown?.(store, app);
+        this.mouseDownCurrentTool(store, app);
     }
 
     onMouseUp = (store, app) => {
-        /** @type {import("../reducers").State} */
-        let state = store.getState();
-        toolMap[state.editor.selectedTool].onMouseUp(store, app);
+        this.mouseUpCurrentTool(store, app);
     }
 
     renderTool = (state, graphics) => {
-        if (this.selectedTool !== state.editor.selectedTool) {
-            toolMap[this.selectedTool].toolDeselected?.();
-            this.selectedTool = state.editor.selectedTool;
-            toolMap[this.selectedTool].toolSelected?.();
+        const newToolIsSelected = this.selectedTool !== state.editor.selectedTool;
+        if (newToolIsSelected) {
+            this.deselectCurrentTool();
+            this.selectTool(state.editor.selectedTool);
         }
-        toolMap[state.editor.selectedTool].renderTool(state, graphics);
+        this.renderCurrentTool(state, graphics);
+    }
+
+    /** @private */
+    selectTool(tool) {
+        this.selectedTool = tool;
+        toolMap[this.selectedTool].toolSelected?.();
+    }
+
+    /** @private */
+    deselectCurrentTool() {
+        toolMap[this.selectedTool].toolDeselected?.();
+        this.selectedTool = null;
+    }
+
+    /** @private */
+    renderCurrentTool(state, graphics) {
+        toolMap[this.selectedTool].renderTool(state, graphics);
+    }
+
+    /** @private */
+    mouseDownCurrentTool(store, app) {
+        toolMap[this.selectedTool].onMouseDown?.(store, app);
+    }
+
+    /** @private */
+    mouseUpCurrentTool(store, app) {
+        toolMap[this.selectedTool].onMouseUp?.(store, app);
     }
 }
