@@ -1,17 +1,17 @@
 import { mouseDown, mouseUp, moveViewport, scroll } from "../reducers/editorActions";
 
-export const handleMouseDown = (mouseEvent, store, app, toolManager) => {
+export const handleMouseDown = (mouseEvent, store, toolManager) => {
     if (mouseEvent.buttons === 1) {
         store.dispatch(mouseDown());
-        toolManager.onMouseDown(store, app);
+        toolManager.onMouseDown(store);
     }
 }
 
-export const handleMouseUp = (mouseEvent, store, app, toolManager) => {
+export const handleMouseUp = (mouseEvent, store, toolManager) => {
     let state = store.getState();
     if (state.editor.mouse.mouseDown) {
         store.dispatch(mouseUp());
-        toolManager.onMouseUp(store, app);
+        toolManager.onMouseUp(store);
     }
 }
 

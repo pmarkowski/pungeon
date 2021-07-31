@@ -23,12 +23,12 @@ export default class ToolManager {
         this.app = app;
     }
 
-    onMouseDown = (store, app) => {
-        this.mouseDownCurrentTool(store, app);
+    onMouseDown = (store) => {
+        this.mouseDownCurrentTool(store, this.app);
     }
 
-    onMouseUp = (store, app) => {
-        this.mouseUpCurrentTool(store, app);
+    onMouseUp = (store) => {
+        this.mouseUpCurrentTool(store, this.app);
     }
 
     renderTool = (state, graphics) => {

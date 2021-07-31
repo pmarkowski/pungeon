@@ -43,14 +43,14 @@ export default class DungeonEditor extends React.Component {
         let toolManager = new ToolManager(
             store.getState().editor.selectedTool,
             app);
-        this.setupInteractions(app, toolManager)
+        this.setupInteractions(toolManager)
 
         app.ticker.add(() => {
             renderDungeon(app, graphics, gridRenderer, toolManager);
         });
     }
 
-    setupInteractions(app, toolManager) {
+    setupInteractions(toolManager) {
         this.canvasDiv.addEventListener("wheel", (wheelEvent) => {
             MouseEventHandler.handleWheelEvent(wheelEvent, store);
             wheelEvent.preventDefault();
@@ -59,10 +59,10 @@ export default class DungeonEditor extends React.Component {
             event.preventDefault();
         });
         this.canvasDiv.addEventListener('pointerdown', (event) => {
-            MouseEventHandler.handleMouseDown(event, store, app, toolManager);
+            MouseEventHandler.handleMouseDown(event, store, toolManager);
         });
         this.canvasDiv.addEventListener('pointerup', (event) => {
-            MouseEventHandler.handleMouseUp(event, store, app, toolManager);
+            MouseEventHandler.handleMouseUp(event, store, toolManager);
         });
         this.canvasDiv.addEventListener('pointermove', (pointerEvent) => {
             MouseEventHandler.handleMouseMove(pointerEvent, store);
