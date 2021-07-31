@@ -2,7 +2,6 @@ import * as PIXI from 'pixi.js';
 import * as DungeonObjectOperations from '../dungeonObjects/DungeonObjectOperations';
 import { pngExported, setCurrentMousePosition } from "../reducers/editorActions";
 import store from '../store.js';
-import TOOL_TYPE from '../tools/toolType';
 import download from "../utils/download";
 
 /**
@@ -60,12 +59,6 @@ const drawDungeonObjects = (container, state) => {
         if (graphics.id) {
             let object = objectIdMap[graphics.id];
             if (object) {
-                if (state.editor.selectedTool === TOOL_TYPE.SELECT) {
-                    graphics.cursor = "move";
-                }
-                else {
-                    graphics.cursor = "default";
-                }
                 DungeonObjectOperations.renderObject(graphics, object, state.editor.selectedObjectIds.includes(graphics.id))
             }
             else {

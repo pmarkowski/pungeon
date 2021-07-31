@@ -40,6 +40,26 @@ const STATES = {
 
 export default class SelectTool {
     /**
+     *
+     * @param {PIXI.Application} app
+     */
+    toolSelected(app) {
+        app.stage.children.forEach(displayObject => {
+            if (displayObject.id) {
+                displayObject.cursor = "move";
+            }
+        });
+    }
+
+    toolDeselected(app) {
+        app.stage.children.forEach(displayObject => {
+            if (displayObject.id) {
+                displayObject.cursor = "default";
+            }
+        });
+    }
+
+    /**
      * @private
      */
     initializeGraphicsForMoving(graphics, state) {

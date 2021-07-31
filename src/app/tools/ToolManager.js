@@ -18,8 +18,9 @@ const toolMap = {
 }
 
 export default class ToolManager {
-    constructor(initialSelectedTool) {
+    constructor(initialSelectedTool, app) {
         this.selectTool(initialSelectedTool);
+        this.app = app;
     }
 
     onMouseDown = (store, app) => {
@@ -33,21 +34,21 @@ export default class ToolManager {
     renderTool = (state, graphics) => {
         const newToolIsSelected = this.selectedTool !== state.editor.selectedTool;
         if (newToolIsSelected) {
-            this.deselectCurrentTool();
-            this.selectTool(state.editor.selectedTool);
+            this.deselectCurrentTool(this.app);
+            this.selectTool(state.editor.selectedTool, this.app);
         }
         this.renderCurrentTool(state, graphics);
     }
 
     /** @private */
-    selectTool(tool) {
+    selectTool(tool, app) {
         this.selectedTool = tool;
-        toolMap[this.selectedTool].toolSelected?.();
+        toolMap[this.selectedTool].toolSelected?.(app);
     }
 
     /** @private */
-    deselectCurrentTool() {
-        toolMap[this.selectedTool].toolDeselected?.();
+    deselectCurrentTool(app) {
+        toolMap[this.selectedTool].toolDeselected?.(app);
         this.selectedTool = null;
     }
 

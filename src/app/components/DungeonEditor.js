@@ -40,7 +40,9 @@ export default class DungeonEditor extends React.Component {
         let gridRenderer = new GridRenderer();
         app.stage.addChild(gridRenderer.createRenderObject());
 
-        let toolManager = new ToolManager(store.getState().editor.selectedTool);
+        let toolManager = new ToolManager(
+            store.getState().editor.selectedTool,
+            app);
         this.setupInteractions(app, toolManager)
 
         app.ticker.add(() => {
